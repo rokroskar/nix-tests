@@ -1,16 +1,23 @@
-{ system ? "x86_64-linux" }:
 let
-  pkgs = import <nixpkgs> { system = system; };
-   mach-nix = import (builtins.fetchGit {
+  pkgs = import <nixpkgs> { system = "x86_64-linux"; };
+  mach-nix = import (builtins.fetchGit {
      url = "https://github.com/DavHau/mach-nix/";
-     ref = "refs/tags/3.3.0";
+     ref = "master";
    }) { inherit pkgs; };
-  renku = mach-nix.mkPython {
-    requirements =  ''
-      renku
+in with pkgs;
+  mach-nix.mkPython {
+    requirements = ''
+    renku==0.16.0
+    setuptools_rust
+    ruamel.yaml<=0.16.5,>=0.12.4
     '';
+    _.renku.buildInputs.add = [ pkgs.git pkgs.git-lfs pkgs.nodejs ];
+    providers = {
+      # The default for all packages which are not specified explicitly
+      _default = "wheel,sdist,nixpkgs";
+
+      # Explicit settings per package
+      cryptography = "nixpkgs,wheel,sdist";
+      cffi = "nixpkgs,wheel,sdist";
     };
-in
-  mach-nix.nixpkgs.mkShell{
-    buildInputs = [ renku pkgs.git ];
   }
