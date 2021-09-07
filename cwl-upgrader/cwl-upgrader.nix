@@ -18,17 +18,17 @@ let
 
 in  with pkgs;
     python39.pkgs.buildPythonPackage {
-    pname = "cwl-upgrader";
-    version = "1.12";
+        pname = "cwl-upgrader";
+        version = "1.12";
 
-    src = fetchFromGitHub {
-        owner = "common-workflow-language";
-        repo = "cwl-upgrader";
-        rev = "e3f995270cd6c52e8e2e1ad0b02a6c92d7333bea";
-        sha256 = "1hhsbz0326dwrjpvxf654vqg4id6402fbvgpp5bkw1d2l2x9sr83";
-        leaveDotGit = true;
-    };
-    doCheck = false;
-    patches = [ ./cwl-upgrader-typing.patch ];
-    propagatedBuildInputs = [ ruamel ];
-}
+        src = fetchFromGitHub {
+            owner = "common-workflow-language";
+            repo = "cwl-upgrader";
+            rev = "e3f995270cd6c52e8e2e1ad0b02a6c92d7333bea";
+            sha256 = "1hhsbz0326dwrjpvxf654vqg4id6402fbvgpp5bkw1d2l2x9sr83";
+            leaveDotGit = true;
+        };
+        doCheck = false;
+        patches = [ ./cwl-upgrader-typing.patch ];
+        propagatedBuildInputs = [ ruamel ];
+    }
