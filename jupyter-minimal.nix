@@ -3,15 +3,16 @@ let
   jupyter = import (builtins.fetchGit {
     url = https://github.com/tweag/jupyterWith;
     rev = "";
-  }) {inherit pkgs;};
+  }) { };
 
   jupyterEnvironment = jupyter.jupyterlabWith {};
+  renku = import ./renku.nix;
 in
     pkgs.dockerTools.buildLayeredImage {
       name = "jupyter";
       tag = "latest";
       created = "now";
-      contents = [ jupyterEnvironment ];
+      contents = [ jupyterEnvironment renku ];
       config = {
           Env = [
               "LOCALE_ARCHIVE=${pkgs.glibcLocales}/lib/locale/locale-archive"
