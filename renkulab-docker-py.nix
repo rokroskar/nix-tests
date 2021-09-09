@@ -16,26 +16,32 @@ let
 
     # get the renku environment
     renku-env = pkgs.callPackage ./renku-env.nix { inherit system; };
-    renku = pkgs.callPackage ./renku.nix { inherit system; };
-in
-    with pkgs;
-    dockerTools.buildImage {
-        name = "jupyter-base";
+
+    # make the base image with user setup
+    base-image = with pkgs; dockerTools.buildImage {
+        name = "base-image";
         tag = "latest";
         fromImage = debian;
-        contents = [ renku renku-env jq bashInteractive curl graphviz ];
         runAsRoot = ''
-            #!${pkgs.runtimeShell}
+            #!${runtimeShell}
             ${dockerTools.shadowSetup}
             groupadd -r jovyan -g 1000
             useradd -s /bin/bash -m -r -u 1000 -g jovyan jovyan
             mkdir /data
             chown jovyan:jovyan /data
-            '';
+        '';
+    };
+in
+    with pkgs;
+    dockerTools.buildLayeredImage {
+        name = "jupyter-base";
+        tag = "latest";
+        fromImage = base-image;
+        contents = [ renku-env git git-lfs nodejs jq bashInteractive curl graphviz ];
         config = {
             User = "jovyan";
             Env = [
-                "LOCALE_ARCHIVE=${pkgs.glibcLocales}/lib/locale/locale-archive"
+                "LOCALE_ARCHIVE=${glibcLocales}/lib/locale/locale-archive"
                 "LANG=en_US.UTF-8"
                 "LANGUAGE=en_US:en"
                 "LC_ALL=C.UTF-8"

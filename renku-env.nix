@@ -2,6 +2,8 @@
 let
     pkgs = import <nixpkgs> { inherit system; };
     mach-nix = pkgs.callPackage ./mach-nix.nix { inherit system; };
+    renku = pkgs.callPackage ./renku.nix { inherit system; };
+
 in with pkgs;
     mach-nix.mkPython {
         requirements = ''
@@ -14,4 +16,5 @@ in with pkgs;
             setuptools
         '';
         _.gitpython.propagatedBuildInputs.mod = pySelf: self: oldVal: oldVal ++ [ pySelf.typing-extensions ];
+        packagesExtra = [ renku ];
     }
