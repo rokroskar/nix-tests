@@ -1,9 +1,8 @@
-{ system ? builtins.currentSystem }:
+{ system ? builtins.currentSystem install_vscode ? false }:
 let
     pkgs = import <nixpkgs> { inherit system; };
     mach-nix = pkgs.callPackage ./mach-nix.nix { inherit system; };
     renku = pkgs.callPackage ./renku.nix { inherit system; };
-
 in with pkgs;
     mach-nix.mkPython {
         requirements = ''
@@ -15,6 +14,7 @@ in with pkgs;
             pip
             setuptools
         '';
+        packagesExtra = [ renku "https://github.com/betatim/vscode-binder/tarball/master" ];
         _.gitpython.propagatedBuildInputs.mod = pySelf: self: oldVal: oldVal ++ [ pySelf.typing-extensions ];
-        packagesExtra = [ renku ];
+        _.vscode-binder.propagatedBuildInputs.mod = pySelf: self: oldVal: oldVal ++ [ code-server ];
     }
