@@ -1,8 +1,8 @@
-{ system ? builtins.currentSystem install_vscode ? false }:
+{ system ? builtins.currentSystem }:
 let
     pkgs = import <nixpkgs> { inherit system; };
     mach-nix = pkgs.callPackage ./mach-nix.nix { inherit system; };
-    renku = pkgs.callPackage ./renku.nix { inherit system; };
+    renku = pkgs.callPackage ./renku-package.nix { inherit system; };
 in with pkgs;
     mach-nix.mkPython {
         requirements = ''
