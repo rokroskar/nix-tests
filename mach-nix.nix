@@ -7,6 +7,6 @@ in with pkgs;
      ref = "master";
    }) {
       inherit pkgs;
-      pypiDataRev = "977d3dbd460a24930880d59102730a0a4519d5fb";
-      pypiDataSha256 = "0mkvgkbvb94dy6p50xf9cw900psk6j2syp70hgxxynsnbjfcgw2w";
+      pypiDataRev = "5c6e5ecbc5a60fb9c43dc77be8e0eb8ac89f4fee";
+      pypiDataSha256 = "0gnq6r92bmnhqjykx3jff7lvg7wbpayd0wvb0drra8r8dvmr5b2d";
     }
