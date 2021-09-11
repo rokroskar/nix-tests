@@ -11,7 +11,7 @@ in with pkgs;
         owner = "SwissDataScienceCenter";
         repo = "renku-python";
         rev = "548b81587d77f10433b24bbd277d052155c2792a";
-        sha256 = "16gpnnnciigp2b5g2rsz8zg5rv2119qicvvjx4irpggy91bgj0hw";
+        sha256 = "06jdgn70hj5bw7r7g91i8mva16j5pj4mvi39x4gwzldca2hh5za0";
         leaveDotGit = true;
         deepClone = true;
     };

@@ -6,7 +6,6 @@ let
 in with pkgs;
     mach-nix.mkPython {
         requirements = ''
-            jupyter-server-proxy
             jupyterlab-git
             jupyterlab-system-monitor
             jupyterlab
